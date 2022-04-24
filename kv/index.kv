@@ -1,0 +1,240 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+WindowManager:
+    transition: NoTransition()
+    id: top_screen_manager
+    HomeScreen:
+    FormScreen:
+    DevicesScreen:
+    ConfigScreen:
+
+
+<HomeScreen>:
+    id: "home_screen_id"
+    name: "home"
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                BoxLayout:
+                    orientation: "vertical"
+                    MDToolbar:
+                        id: toolbar
+                        anchor_title: "center"
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("toggle")]]
+                        right_action_items: [["blank"]]
+                    BoxLayout:
+                        id: box_layout
+                        orientation: "vertical"
+        MDNavigationDrawer:
+            id: nav_drawer
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+
+<FormScreen>:
+    id: "form_screen_id"
+    name: "form"
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                BoxLayout:
+                    orientation: "vertical"
+                    MDToolbar:
+                        id: toolbar
+                        anchor_title: "center"
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
+                        left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                    BoxLayout:
+                        id: box_layout
+                        orientation: "vertical"
+                        padding: 20
+                        MDGridLayout:
+                            cols: 1
+                            halign : "center"
+                            MDLabel:
+                                text: "Add Device Form"
+                                size_hint: (1, None)
+                                height: "50dp"
+                                # size_hint_y: None
+                                # height: dp(90)
+                                pos_hint: {'center_x':.5, 'center_y': .8}
+                            MDTextField:
+                                id : input_name
+                                text:"Device Name"
+                                # multiline:False
+                                hint_text : "Sonoff device's name"
+                                # size_hint_y: None
+                                # height: dp(90)
+                                pos_hint: {'center_x':.5, 'center_y': .5}
+                            MDTextField:
+                                id : input_ip
+                                text:"192.168.15.10"
+                                # multiline:False
+                                hint_text : "Enter IP address"
+                                # size_hint_y: None
+                                # height: dp(90)
+                                pos_hint: {'center_x':.5, 'center_y': .4}
+                            MDRectangleFlatButton:
+                                device_id: ''
+                                id: action_button
+                                pos_hint: {'center_x':.5, 'center_y': .3}
+                                text : "SAVE"
+                                on_press: root.do_save()
+        MDNavigationDrawer:
+            id: nav_drawer
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+
+<DevicesScreen>:
+    id: "devices_screen_id"
+    name: "devices"
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                BoxLayout:
+                    orientation: "vertical"
+                    MDToolbar:
+                        id: toolbar
+                        anchor_title: "center"
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
+                        left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                    BoxLayout:
+                        id: box_layout
+                        orientation: "vertical"
+        MDNavigationDrawer:
+            id: nav_drawer
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+
+<ConfigScreen>:
+    id: "config_screen_id"
+    name: "config"
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                BoxLayout:
+                    orientation: "vertical"
+                    MDToolbar:
+                        id: toolbar
+                        anchor_title: "center"
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
+                        left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                    BoxLayout:
+                        id: box_layout
+                        orientation: "vertical"
+                        ScrollView:
+                            MDGridLayout:
+                                id: grid_form
+                                cols: 2
+                                adaptive_height: True
+                                padding: dp(20), dp(20)
+                                spacing: dp(10)
+                                # md_bg_color: app.theme_cls.primary_color
+                                MDLabel:
+                                    text : 'oi switch'
+                                MDSwitch:
+                                    active: False
+                                    id: variable_a
+                                    width: dp(50)
+                                    on_active:
+                                        root.do_switch_click('variable_a', self, self.active)
+                                MDLabel:
+                                    text : 'oi switch'
+                                MDSwitch:
+                                    active: False
+                                    id: variable_b
+                                    width: dp(50)
+                                    on_active:
+                                        root.do_switch_click('variable_b', self, self.active)
+                                MDLabel:
+                                    text : 'oi switch'
+                                MDSwitch:
+                                    active: False
+                                    id: variable_c
+                                    width: dp(50)
+                                    on_active:
+                                        root.do_switch_click('variable_c', self, self.active)
+                                MDLabel:
+                                    text : 'oi text'
+                                MDTextFieldRect:
+                                    text: "Default Text Here"
+                                    multiline: False
+                                    id: variable_d
+                                    size_hint: 1, None
+                                    height: "30dp"
+                                MDRectangleFlatButton:
+                                    pos_hint: {'center_x':.5}
+                                    text : "SAVE"
+                                    on_press: root.do_save()
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+    AnchorLayout:
+        anchor_x: "center"
+        size_hint_y: None
+        height: "56dp"
+        Image:
+            id: logo_icon
+            size_hint: None, None
+            size: "56dp", "56dp"
+            source: "assets/images/icon.png"
+    MDLabel:
+        id: label1
+        font_style: "Subtitle1"
+        halign: "center"
+        size_hint_y: None
+        height: self.texture_size[1]
+    MDLabel:
+        id: label2
+        font_style: "Caption"
+        halign: "center"
+        size_hint_y: None
+        height: self.texture_size[1]
+    ScrollView:
+        DrawerList:
+            MDList:
+                OneLineIconListItem:
+                    text: "Home"
+                    on_release:
+                        root.nav_drawer.set_state("close")
+                        app.change_screen_item("home")
+                    IconLeftWidget:
+                        icon: "home"
+                OneLineIconListItem:
+                    text: "Form"
+                    on_release:
+                        root.nav_drawer.set_state("close")
+                        app.change_screen_item("form")
+                    IconLeftWidget:
+                        icon: "file-document-edit"
+                OneLineIconListItem:
+                    text: "Devices"
+                    on_release:
+                        root.nav_drawer.set_state("close")
+                        app.change_screen_item("devices")
+                    IconLeftWidget:
+                        icon: "format-list-bulleted"
+                OneLineIconListItem:
+                    text: "Config"
+                    on_release:
+                        root.nav_drawer.set_state("close")
+                        app.change_screen_item("config")
+                    IconLeftWidget:
+                        icon: "cog"
