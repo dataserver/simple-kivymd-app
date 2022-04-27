@@ -8,7 +8,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.label import Label, MDLabel
+from kivymd.uix.label import MDLabel
 from kivymd.uix.list import (IconLeftWidget, ImageLeftWidget, MDList,
                              OneLineIconListItem, OneLineListItem,
                              TwoLineAvatarListItem, TwoLineIconListItem,
@@ -33,13 +33,7 @@ class DevicesScreen(Screen):
         super().__init__(**kwargs)
 
     def on_pre_enter(self, *args):
-        # Clock.schedule_once(self.on_change_screen)
-        pass
 
-    def on_enter(self, *args):
-        Clock.schedule_once(self.on_change_screen)
-
-    def on_change_screen(self, *args):
         self.ids.box_layout.clear_widgets()
 
         conn = sqlite3.connect("mydb.sqlite3")
@@ -75,6 +69,12 @@ class DevicesScreen(Screen):
         self.ids.box_layout.add_widget(scroll)
 
         conn.close()
+
+    def show_menu(self, device_id):
+        print('device id', device_id)
+
+
+
 
     def do_edit_device(self, device_id):
         self.parent.current = 'form'

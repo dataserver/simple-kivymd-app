@@ -28,17 +28,6 @@ class FormScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def on_pre_enter(self, *args):
-        # Clock.schedule_once(self.on_change_screen)
-        pass
-
-    def on_enter(self, *args):
-        Clock.schedule_once(self.on_change_screen)
-        pass
-
-    def on_change_screen(self, *args):
-        pass
-
     def load_device_info(self, device_id):
         conn = sqlite3.connect("mydb.sqlite3")
         conn.row_factory = sqlite3.Row

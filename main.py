@@ -9,6 +9,7 @@ from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
+from kivy.utils import platform
 from kivymd.app import MDApp
 from kivymd.font_definitions import fonts
 from sqlitedict import SqliteDict
@@ -18,7 +19,12 @@ from devices_screen import DevicesScreen
 from form_screen import FormScreen
 from home_screen import HomeScreen
 
-# Window.size = (300,500)
+# add the following just under the imports
+if platform == "android":
+    from android.permissions import Permission, request_permissions
+    request_permissions([Permission.INTERNET,Permission.READ_EXTERNAL_STORAGE,Permission.WRITE_EXTERNAL_STORAGE])
+
+Window.size = (300,500)
 
 class WindowManager(ScreenManager):
     pass

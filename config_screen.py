@@ -28,13 +28,6 @@ class ConfigScreen(Screen):
         super().__init__(**kwargs)
 
     def on_pre_enter(self, *args):
-        Clock.schedule_once(self.on_change_screen)
-
-    def on_enter(self, *args):
-        # Clock.schedule_once(self.on_change_screen)
-        pass
-
-    def on_change_screen(self, *args):
         with SqliteDict("mydb.sqlite3", tablename="configurations",encode=json.dumps, decode=json.loads) as db:
             c = db['default_config']
             self.ids.variable_a.active = c['variable_a']

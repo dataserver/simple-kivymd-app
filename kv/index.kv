@@ -1,4 +1,5 @@
 #: import NoTransition kivy.uix.screenmanager.NoTransition
+#:import get_color_from_hex kivy.utils.get_color_from_hex
 
 WindowManager:
     transition: NoTransition()
@@ -16,9 +17,9 @@ WindowManager:
         ScreenManager:
             id: screen_manager
             Screen:
-                BoxLayout:
+                MDBoxLayout:
                     orientation: "vertical"
-                    MDToolbar:
+                    MDTopAppBar:
                         id: toolbar
                         anchor_title: "center"
                         left_action_items: [["menu", lambda x: nav_drawer.set_state("toggle")]]
@@ -28,6 +29,8 @@ WindowManager:
                         orientation: "vertical"
         MDNavigationDrawer:
             id: nav_drawer
+            swipe_edge_width: 0
+            elevation: 0
             ContentNavigationDrawer:
                 screen_manager: screen_manager
                 nav_drawer: nav_drawer
@@ -40,51 +43,71 @@ WindowManager:
         ScreenManager:
             id: screen_manager
             Screen:
-                BoxLayout:
+                MDBoxLayout:
                     orientation: "vertical"
-                    MDToolbar:
+                    MDTopAppBar:
                         id: toolbar
                         anchor_title: "center"
-                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                         left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                     BoxLayout:
                         id: box_layout
                         orientation: "vertical"
-                        padding: 20
-                        MDGridLayout:
-                            cols: 1
-                            halign : "center"
-                            MDLabel:
-                                text: "Add Device Form"
-                                size_hint: (1, None)
-                                height: "50dp"
-                                # size_hint_y: None
-                                # height: dp(90)
-                                pos_hint: {'center_x':.5, 'center_y': .8}
-                            MDTextField:
-                                id : input_name
-                                text:"Device Name"
-                                # multiline:False
-                                hint_text : "Sonoff device's name"
-                                # size_hint_y: None
-                                # height: dp(90)
-                                pos_hint: {'center_x':.5, 'center_y': .5}
-                            MDTextField:
-                                id : input_ip
-                                text:"192.168.15.10"
-                                # multiline:False
-                                hint_text : "Enter IP address"
-                                # size_hint_y: None
-                                # height: dp(90)
-                                pos_hint: {'center_x':.5, 'center_y': .4}
-                            MDRectangleFlatButton:
-                                device_id: ''
-                                id: action_button
-                                pos_hint: {'center_x':.5, 'center_y': .3}
-                                text : "SAVE"
-                                on_press: root.do_save()
+                        ScrollView:
+                            # do_scroll_h: True
+                            GridLayout:
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                padding: dp(20)
+                                GridLayout:
+                                    cols: 1
+                                    spacing: dp(30)
+                                    row_default_height: dp(70)
+                                    row_force_default: True
+                                    size_hint_y: None
+                                    height: self.minimum_height
+                                    MDLabel:
+                                        text: "Add Device Form"
+                                    MDTextField:
+                                        multiline:False
+                                        id : input_name
+                                        text:"Device Name"
+                                        hint_text : "Sonoff device's name"
+                                    MDTextField:
+                                        id : input_ip
+                                        multiline:False
+                                        text:"192.168.15.10"
+                                        hint_text : "Enter IP address"
+                                GridLayout:
+                                    cols: 2
+                                    spacing: dp(30)
+                                    row_default_height: dp(50)
+                                    row_force_default: True
+
+                                    size_hint_y: None
+                                    height: self.minimum_height
+                                    AnchorLayout: # required for MDbutton
+                                        size_hint_y: None
+                                        height: action_button.height
+                                        MDRectangleFlatButton:
+                                            device_id: ''
+                                            id: action_button
+                                            text : "SAVE"
+                                            on_press: root.do_save()
+                                    AnchorLayout: # required for MDbutton
+                                        size_hint_y: None
+                                        height: btn_cancel.height
+                                        MDRectangleFlatButton:
+                                            id: btn_cancel
+                                            text : "Cancel"
+                                            on_press: app.change_screen_item("home")
+
+
         MDNavigationDrawer:
             id: nav_drawer
+            swipe_edge_width: 0
+            elevation: 0
             ContentNavigationDrawer:
                 screen_manager: screen_manager
                 nav_drawer: nav_drawer
@@ -97,18 +120,20 @@ WindowManager:
         ScreenManager:
             id: screen_manager
             Screen:
-                BoxLayout:
+                MDBoxLayout:
                     orientation: "vertical"
-                    MDToolbar:
+                    MDTopAppBar:
                         id: toolbar
                         anchor_title: "center"
-                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                         left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                     BoxLayout:
                         id: box_layout
                         orientation: "vertical"
         MDNavigationDrawer:
             id: nav_drawer
+            swipe_edge_width: 0
+            elevation: 0
             ContentNavigationDrawer:
                 screen_manager: screen_manager
                 nav_drawer: nav_drawer
@@ -121,63 +146,80 @@ WindowManager:
         ScreenManager:
             id: screen_manager
             Screen:
-                BoxLayout:
+                MDBoxLayout:
                     orientation: "vertical"
-                    MDToolbar:
+                    MDTopAppBar:
                         id: toolbar
                         anchor_title: "center"
-                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                         left_action_items:[["arrow-left", lambda x: app.go_home()]]
+                        right_action_items: [["dots-vertical", lambda x: nav_drawer.set_state("toggle")]]
                     BoxLayout:
-                        id: box_layout
                         orientation: "vertical"
+                        id: box_layout
                         ScrollView:
-                            MDGridLayout:
-                                id: grid_form
-                                cols: 2
-                                adaptive_height: True
-                                padding: dp(20), dp(20)
-                                spacing: dp(10)
-                                # md_bg_color: app.theme_cls.primary_color
-                                MDLabel:
-                                    text : 'oi switch'
-                                MDSwitch:
-                                    active: False
-                                    id: variable_a
-                                    width: dp(50)
-                                    on_active:
-                                        root.do_switch_click('variable_a', self, self.active)
-                                MDLabel:
-                                    text : 'oi switch'
-                                MDSwitch:
-                                    active: False
-                                    id: variable_b
-                                    width: dp(50)
-                                    on_active:
-                                        root.do_switch_click('variable_b', self, self.active)
-                                MDLabel:
-                                    text : 'oi switch'
-                                MDSwitch:
-                                    active: False
-                                    id: variable_c
-                                    width: dp(50)
-                                    on_active:
-                                        root.do_switch_click('variable_c', self, self.active)
-                                MDLabel:
-                                    text : 'oi text'
-                                MDTextFieldRect:
-                                    text: "Default Text Here"
-                                    multiline: False
-                                    id: variable_d
-                                    size_hint: 1, None
-                                    height: "30dp"
-                                MDRectangleFlatButton:
-                                    pos_hint: {'center_x':.5}
-                                    text : "SAVE"
-                                    on_press: root.do_save()
+                            # do_scroll_h: True
+                            GridLayout:
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                padding: dp(20)
+                                GridLayout:
+                                    cols: 2
+                                    spacing: dp(30)
+                                    # size_hint_x: None
+                                    row_default_height: 50
+                                    row_force_default: True
+                                    size_hint_y: None
+                                    height: self.minimum_height
+                                    MDLabel:
+                                        text : 'Variable A'
+                                    MDSwitch:
+                                        active: False
+                                        id: variable_a
+                                        width: dp(50)
+                                        on_active:
+                                            root.do_switch_click('variable_a', self, self.active)
+                                    MDLabel:
+                                        text : 'Variable B'
+                                    MDSwitch:
+                                        active: False
+                                        id: variable_b
+                                        width: dp(50)
+                                        on_active:
+                                            root.do_switch_click('variable_b', self, self.active)
+                                    MDLabel:
+                                        text : 'Variable C'
+                                    MDSwitch:
+                                        active: False
+                                        id: variable_c
+                                        width: dp(50)
+                                        on_active:
+                                            root.do_switch_click('variable_c', self, self.active)
+                                    MDLabel:
+                                        text : 'Variable D'
+                                    MDTextFieldRect:
+                                        text: "Default Text Here"
+                                        multiline: False
+                                        id: variable_d
+                                    AnchorLayout: # required for MDbutton
+                                        size_hint_y: None
+                                        height: btn_save.height
+                                        MDRectangleFlatButton:
+                                            id: btn_save
+                                            text : "Save"
+                                            on_press: root.do_save()
+                                    AnchorLayout: # required for MDbutton
+                                        size_hint_y: None
+                                        height: btn_cancel.height
+                                        MDRectangleFlatButton:
+                                            id: btn_cancel
+                                            text : "Cancel"
+                                            on_press: app.change_screen_item("home")
 
         MDNavigationDrawer:
             id: nav_drawer
+            swipe_edge_width: 0
+            elevation: 0
             ContentNavigationDrawer:
                 screen_manager: screen_manager
                 nav_drawer: nav_drawer
@@ -190,7 +232,7 @@ WindowManager:
         anchor_x: "center"
         size_hint_y: None
         height: "56dp"
-        Image:
+        FitImage:
             id: logo_icon
             size_hint: None, None
             size: "56dp", "56dp"

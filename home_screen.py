@@ -24,6 +24,7 @@ class HomeScreen(Screen):
 
     def on_pre_enter(self, *args):
         Clock.schedule_once(self.on_change_screen)
+        pass
 
     def on_enter(self, *args):
         # Clock.schedule_once(self.on_change_screen)
