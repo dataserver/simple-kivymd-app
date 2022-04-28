@@ -40,9 +40,9 @@ class FormScreen(Screen):
 
         data = dict(result=[dict(r) for r in cur.fetchall()])
         conn.close()
-        self.ids.action_button.device_id = data['result'][0]['id']
-        self.ids.input_name.text = data['result'][0]['name']
-        self.ids.input_ip.text = data['result'][0]['ip']
+        self.ids.action_button.device_id = data["result"][0]["id"]
+        self.ids.input_name.text = data["result"][0]["name"]
+        self.ids.input_ip.text = data["result"][0]["ip"]
 
     # SCREEN ACTIONS
     def do_save(self):

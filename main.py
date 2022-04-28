@@ -1,4 +1,4 @@
-__version__ = '1.0.6'
+__version__ = "1.0.6"
 
 import json
 import sqlite3
@@ -9,7 +9,7 @@ from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.utils import platform
+from kivy.utils import get_color_from_hex, platform
 from kivymd.app import MDApp
 from kivymd.font_definitions import fonts
 from sqlitedict import SqliteDict
@@ -43,45 +43,38 @@ class App(MDApp):
         return root
 
     def on_start(self):
-        self.theme_cls.primary_palette = "Amber"
+        self.theme_cls.primary_palette = "Purple"
+        self.theme_cls.accent_palette = "Purple"
+        self.theme_cls.primary_hue = "600"  # "500"
         self.create_db_or_connect()
 
         # from kivymd.icon_definitions import md_icons
         # https://kivy.org/doc/stable/api-kivy.core.text.markup.html #simple text-markup for inline text styling
-        # f"[size=25sp][font={fonts[-1]['fn_regular']}]{md_icons['home-circle']}[/size][/font] " \
-        # f"Title"
+        # f"""[size=25sp][font={fonts[-1]["fn_regular"]}]{md_icons["home-circle"]}[/size][/font]Title"""
 
         # home screen
-        self.root.get_screen("home").ids.toolbar.ids.label_title.text = \
-            f"[size=25sp][font={fonts[-1]['fn_regular']}][/size][/font] " \
-            f"Graúna"
+        self.root.get_screen("home").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]Graúna"""
         self.root.get_screen("home").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("home").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # form screen
-        self.root.get_screen("form").ids.toolbar.ids.label_title.text = \
-            f"[size=25sp][font={fonts[-1]['fn_regular']}][/size][/font] " \
-            f"form"
+        self.root.get_screen("form").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]form"""
         self.root.get_screen("form").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("form").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # devices screen
-        self.root.get_screen("devices").ids.toolbar.ids.label_title.text = \
-            f"[size=25sp][font={fonts[-1]['fn_regular']}][/size][/font] " \
-            f"devices"
+        self.root.get_screen("devices").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]devices"""
         self.root.get_screen("devices").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("devices").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # config screen
-        self.root.get_screen("config").ids.toolbar.ids.label_title.text = \
-            f"[size=25sp][font={fonts[-1]['fn_regular']}][/size][/font] " \
-            f"config"
+        self.root.get_screen("config").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]config"""
         self.root.get_screen("config").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("config").ids.toolbar.ids.label_title.font_size = "25sp"
 
 
     def go_home(self):
-        self.root.current = 'home'
+        self.root.current = "home"
 
     def change_screen_item(self, name):
         self.root.current = name
@@ -91,7 +84,7 @@ class App(MDApp):
 
         if isfile(db_file):
             with SqliteDict(db_file, tablename="configurations",encode=json.dumps, decode=json.loads) as db:
-                cfg = db['default_config']
+                cfg = db["default_config"]
             self.cfg = cfg
 
         else:
@@ -120,13 +113,13 @@ class App(MDApp):
             conn.close()
 
             default_config = {
-                'variable_a': False,
-                'variable_b': False,
-                'variable_c': False,
-                'variable_d' : 'Sample Text'
+                "variable_a": False,
+                "variable_b": False,
+                "variable_c": False,
+                "variable_d" : "Sample Text"
             }
             with SqliteDict(db_file, tablename="configurations",encode=json.dumps, decode=json.loads) as db:
-                db['default_config'] = default_config
+                db["default_config"] = default_config
                 db.commit()
             self.cfg = default_config
 

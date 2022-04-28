@@ -1,5 +1,4 @@
-#: import NoTransition kivy.uix.screenmanager.NoTransition
-#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import NoTransition kivy.uix.screenmanager.NoTransition
 
 WindowManager:
     transition: NoTransition()
@@ -90,8 +89,8 @@ WindowManager:
                                     AnchorLayout: # required for MDbutton
                                         size_hint_y: None
                                         height: action_button.height
-                                        MDRectangleFlatButton:
-                                            device_id: ''
+                                        MDRaisedButton:
+                                            device_id: ""
                                             id: action_button
                                             text : "SAVE"
                                             on_press: root.do_save()
@@ -172,31 +171,31 @@ WindowManager:
                                     size_hint_y: None
                                     height: self.minimum_height
                                     MDLabel:
-                                        text : 'Variable A'
+                                        text : "Variable A"
                                     MDSwitch:
                                         active: False
                                         id: variable_a
                                         width: dp(50)
                                         on_active:
-                                            root.do_switch_click('variable_a', self, self.active)
+                                            root.do_switch_click("variable_a", self, self.active)
                                     MDLabel:
-                                        text : 'Variable B'
+                                        text : "Variable B"
                                     MDSwitch:
                                         active: False
                                         id: variable_b
                                         width: dp(50)
                                         on_active:
-                                            root.do_switch_click('variable_b', self, self.active)
+                                            root.do_switch_click("variable_b", self, self.active)
                                     MDLabel:
-                                        text : 'Variable C'
+                                        text : "Variable C"
                                     MDSwitch:
                                         active: False
                                         id: variable_c
                                         width: dp(50)
                                         on_active:
-                                            root.do_switch_click('variable_c', self, self.active)
+                                            root.do_switch_click("variable_c", self, self.active)
                                     MDLabel:
-                                        text : 'Variable D'
+                                        text : "Variable D"
                                     MDTextFieldRect:
                                         text: "Default Text Here"
                                         multiline: False
@@ -204,7 +203,7 @@ WindowManager:
                                     AnchorLayout: # required for MDbutton
                                         size_hint_y: None
                                         height: btn_save.height
-                                        MDRectangleFlatButton:
+                                        MDRaisedButton:
                                             id: btn_save
                                             text : "Save"
                                             on_press: root.do_save()

@@ -29,24 +29,24 @@ class ConfigScreen(Screen):
 
     def on_pre_enter(self, *args):
         with SqliteDict("mydb.sqlite3", tablename="configurations",encode=json.dumps, decode=json.loads) as db:
-            c = db['default_config']
-            self.ids.variable_a.active = c['variable_a']
-            self.ids.variable_b.active = c['variable_b']
-            self.ids.variable_c.active = c['variable_c']
-            self.ids.variable_d.text = c['variable_d']
+            c = db["default_config"]
+            self.ids.variable_a.active = c["variable_a"]
+            self.ids.variable_b.active = c["variable_b"]
+            self.ids.variable_c.active = c["variable_c"]
+            self.ids.variable_d.text = c["variable_d"]
 
     def do_switch_click(self, variable_id, switchObject, switchValue):
         pass
 
     def do_save(self):
         new_cfg = {
-            'variable_a': self.ids.variable_a.active,
-            'variable_b': self.ids.variable_b.active,
-            'variable_c': self.ids.variable_c.active,
-            'variable_d' : self.ids.variable_d.text
+            "variable_a": self.ids.variable_a.active,
+            "variable_b": self.ids.variable_b.active,
+            "variable_c": self.ids.variable_c.active,
+            "variable_d" : self.ids.variable_d.text
         }
         with SqliteDict("mydb.sqlite3", tablename="configurations",encode=json.dumps, decode=json.loads) as db:
-            db['default_config'] = new_cfg
+            db["default_config"] = new_cfg
             db.commit()
         App.get_running_app().cfg = new_cfg
         self.manager.current = "home"

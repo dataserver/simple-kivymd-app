@@ -43,8 +43,8 @@ class DevicesScreen(Screen):
         list_view = MDList()
 
         header = OneLineListItem(
-                            text=f"Devices",
-                            secondary_text=f"List of devices",
+                            text="Devices",
+                            secondary_text="List of devices",
                         )
         list_view.add_widget(header)
 
@@ -54,11 +54,11 @@ class DevicesScreen(Screen):
         # unpacked = [{k: item[k] for k in item.keys()} for item in things]
         if len(results) > 0:
             for row in results:
-                device_id = f"{row['id']}"
+                device_id = {row["id"]}
                 item = MyDevicesListItem(
-                                    device_id=f"{row['id']}",
-                                    text=f"{row['name']}",
-                                    secondary_text=f"{row['ip']}",
+                                    device_id= row["id"],
+                                    text=row["name"],
+                                    secondary_text=row["ip"],
                                     on_release=(lambda x, value_for_pass=device_id: self.do_edit_device(value_for_pass)),
                                 )
                 list_view.add_widget(item)
@@ -71,14 +71,14 @@ class DevicesScreen(Screen):
         conn.close()
 
     def show_menu(self, device_id):
-        print('device id', device_id)
+        print("device id", device_id)
 
 
 
 
     def do_edit_device(self, device_id):
-        self.parent.current = 'form'
-        self.parent.get_screen('form').load_device_info(device_id)
+        self.parent.current = "form"
+        self.parent.get_screen("form").load_device_info(device_id)
 
     def do_delete_device(self):
         conn = sqlite3.connect("mydb.sqlite3")
@@ -88,7 +88,7 @@ class DevicesScreen(Screen):
         cur.execute("""
             DELETE FROM devices WHERE id=:id
             """, {
-                'id': self.db_id.text
+                "id": self.db_id.text
             })
         conn.commit()
         conn.close()
