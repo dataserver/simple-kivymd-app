@@ -16,6 +16,8 @@ from kivymd.uix.list import (IconLeftWidget, ImageLeftWidget, MDList,
 from kivymd.uix.textfield import MDTextField
 from sqlitedict import SqliteDict
 
+from configs_env import ENV
+
 
 class ContentNavigationDrawer(BoxLayout):
     pass
@@ -36,7 +38,7 @@ class DevicesScreen(Screen):
 
         self.ids.box_layout.clear_widgets()
 
-        conn = sqlite3.connect("mydb.sqlite3")
+        conn = sqlite3.connect(ENV["DB_FILE_NAME"])
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         scroll = ScrollView()
@@ -81,7 +83,7 @@ class DevicesScreen(Screen):
         self.parent.get_screen("form").load_device_info(device_id)
 
     def do_delete_device(self):
-        conn = sqlite3.connect("mydb.sqlite3")
+        conn = sqlite3.connect(ENV["DB_FILE_NAME"])
         cur = conn.cursor()
 
         screen_content = self.root.ids.screen_manager.get_screen("scr_devices")

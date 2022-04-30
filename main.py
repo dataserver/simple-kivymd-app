@@ -14,17 +14,18 @@ from kivymd.app import MDApp
 from kivymd.font_definitions import fonts
 from sqlitedict import SqliteDict
 
-from config_screen import ConfigScreen
-from devices_screen import DevicesScreen
-from form_screen import FormScreen
-from home_screen import HomeScreen
+from configs_env import ENV
+from screen_config import ConfigScreen
+from screen_devices import DevicesScreen
+from screen_form import FormScreen
+from screen_home import HomeScreen
 
 # add the following just under the imports
 if platform == "android":
     from android.permissions import Permission, request_permissions
     request_permissions([Permission.INTERNET,Permission.READ_EXTERNAL_STORAGE,Permission.WRITE_EXTERNAL_STORAGE])
 
-Window.size = (300,500)
+# Window.size = (300,500)
 
 class WindowManager(ScreenManager):
     pass
@@ -80,15 +81,13 @@ class App(MDApp):
         self.root.current = name
 
     def create_db_or_connect(self):
-        db_file = "mydb.sqlite3"
-
-        if isfile(db_file):
-            with SqliteDict(db_file, tablename="configurations",encode=json.dumps, decode=json.loads) as db:
+        if isfile(ENV["DB_FILE_NAME"]):
+            with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
                 cfg = db["default_config"]
             self.cfg = cfg
 
         else:
-            conn = sqlite3.connect(db_file)
+            conn = sqlite3.connect(ENV["DB_FILE_NAME"])
             conn.row_factory = sqlite3.Row
             cur = conn.cursor()
             cur.execute("""
@@ -118,7 +117,7 @@ class App(MDApp):
                 "variable_c": False,
                 "variable_d" : "Sample Text"
             }
-            with SqliteDict(db_file, tablename="configurations",encode=json.dumps, decode=json.loads) as db:
+            with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
                 db["default_config"] = default_config
                 db.commit()
             self.cfg = default_config

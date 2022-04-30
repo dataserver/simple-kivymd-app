@@ -17,6 +17,8 @@ from kivymd.uix.list import (IconLeftWidget, ImageLeftWidget, MDList,
                              OneLineIconListItem, TwoLineAvatarListItem)
 from kivymd.uix.textfield import MDTextField
 
+from configs_env import ENV
+
 
 class ContentNavigationDrawer(BoxLayout):
     pass
@@ -29,7 +31,7 @@ class FormScreen(Screen):
         super().__init__(**kwargs)
 
     def load_device_info(self, device_id):
-        conn = sqlite3.connect("mydb.sqlite3")
+        conn = sqlite3.connect(ENV["DB_FILE_NAME"])
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         cur.execute("""
@@ -52,7 +54,7 @@ class FormScreen(Screen):
             self.do_insert()
 
     def do_insert(self):
-        conn = sqlite3.connect("mydb.sqlite3")
+        conn = sqlite3.connect(ENV["DB_FILE_NAME"])
         cur = conn.cursor()
 
         cur.execute("""
@@ -72,7 +74,7 @@ class FormScreen(Screen):
 
 
     def do_update(self, *args):
-        conn = sqlite3.connect("mydb.sqlite3")
+        conn = sqlite3.connect(ENV["DB_FILE_NAME"])
         cur = conn.cursor()
 
         cur.execute("""

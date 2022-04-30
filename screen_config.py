@@ -16,6 +16,8 @@ from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from sqlitedict import SqliteDict
 
+from configs_env import ENV
+
 
 class ContentNavigationDrawer(BoxLayout):
     pass
@@ -28,7 +30,7 @@ class ConfigScreen(Screen):
         super().__init__(**kwargs)
 
     def on_pre_enter(self, *args):
-        with SqliteDict("mydb.sqlite3", tablename="configurations",encode=json.dumps, decode=json.loads) as db:
+        with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
             c = db["default_config"]
             self.ids.variable_a.active = c["variable_a"]
             self.ids.variable_b.active = c["variable_b"]
@@ -45,7 +47,7 @@ class ConfigScreen(Screen):
             "variable_c": self.ids.variable_c.active,
             "variable_d" : self.ids.variable_d.text
         }
-        with SqliteDict("mydb.sqlite3", tablename="configurations",encode=json.dumps, decode=json.loads) as db:
+        with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
             db["default_config"] = new_cfg
             db.commit()
         App.get_running_app().cfg = new_cfg
