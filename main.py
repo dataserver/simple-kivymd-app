@@ -23,16 +23,26 @@ from screen_home import HomeScreen
 # add the following just under the imports
 if platform == "android":
     from android.permissions import Permission, request_permissions
-    request_permissions([Permission.INTERNET,Permission.READ_EXTERNAL_STORAGE,Permission.WRITE_EXTERNAL_STORAGE])
+
+    request_permissions(
+        [
+            Permission.INTERNET,
+            Permission.READ_EXTERNAL_STORAGE,
+            Permission.WRITE_EXTERNAL_STORAGE,
+        ]
+    )
 
 # Window.size = (300,500)
+
 
 class WindowManager(ScreenManager):
     pass
 
+
 class ContentNavigationDrawer(BoxLayout):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
+
 
 class App(MDApp):
     def __init__(self, **kwargs):
@@ -54,25 +64,48 @@ class App(MDApp):
         # f"""[size=25sp][font={fonts[-1]["fn_regular"]}]{md_icons["home-circle"]}[/size][/font]Title"""
 
         # home screen
-        self.root.get_screen("home").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]Graúna"""
-        self.root.get_screen("home").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
+        self.root.get_screen(
+            "home"
+        ).ids.toolbar.ids.label_title.text = (
+            f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]Graúna"""
+        )
+        self.root.get_screen(
+            "home"
+        ).ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("home").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # form screen
-        self.root.get_screen("form").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]form"""
-        self.root.get_screen("form").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
+        self.root.get_screen(
+            "form"
+        ).ids.toolbar.ids.label_title.text = (
+            f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]form"""
+        )
+        self.root.get_screen(
+            "form"
+        ).ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("form").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # devices screen
-        self.root.get_screen("devices").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]devices"""
-        self.root.get_screen("devices").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
+        self.root.get_screen(
+            "devices"
+        ).ids.toolbar.ids.label_title.text = (
+            f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]devices"""
+        )
+        self.root.get_screen(
+            "devices"
+        ).ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("devices").ids.toolbar.ids.label_title.font_size = "25sp"
 
         # config screen
-        self.root.get_screen("config").ids.toolbar.ids.label_title.text = f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]config"""
-        self.root.get_screen("config").ids.toolbar.ids.label_title.family_name = "RobotoBlack"
+        self.root.get_screen(
+            "config"
+        ).ids.toolbar.ids.label_title.text = (
+            f"""[size=25sp][font={fonts[-1]["fn_regular"]}][/size][/font]config"""
+        )
+        self.root.get_screen(
+            "config"
+        ).ids.toolbar.ids.label_title.family_name = "RobotoBlack"
         self.root.get_screen("config").ids.toolbar.ids.label_title.font_size = "25sp"
-
 
     def go_home(self):
         self.root.current = "home"
@@ -82,7 +115,12 @@ class App(MDApp):
 
     def create_db_or_connect(self):
         if isfile(ENV["DB_FILE_NAME"]):
-            with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
+            with SqliteDict(
+                ENV["DB_FILE_NAME"],
+                tablename=ENV["DB_TABLE_CONFIG_NAME"],
+                encode=json.dumps,
+                decode=json.loads,
+            ) as db:
                 cfg = db["default_config"]
             self.cfg = cfg
 
@@ -90,14 +128,16 @@ class App(MDApp):
             conn = sqlite3.connect(ENV["DB_FILE_NAME"])
             conn.row_factory = sqlite3.Row
             cur = conn.cursor()
-            cur.execute("""
+            cur.execute(
+                """
                         CREATE TABLE if not exists devices (
                             id TEXT,
                             name TEXT,
                             ip TEXT,
                             PRIMARY KEY (id, name)
                         )
-                        """)
+                        """
+            )
             cur.execute("""INSERT INTO devices VALUES ('1', 'device A', '172.0.0.1')""")
             cur.execute("""INSERT INTO devices VALUES ('2', 'device B', '172.0.0.2')""")
             cur.execute("""INSERT INTO devices VALUES ('3', 'device C', '172.0.0.3')""")
@@ -107,7 +147,9 @@ class App(MDApp):
             cur.execute("""INSERT INTO devices VALUES ('7', 'device G', '172.0.0.7')""")
             cur.execute("""INSERT INTO devices VALUES ('8', 'device H', '172.0.0.8')""")
             cur.execute("""INSERT INTO devices VALUES ('9', 'device I', '172.0.0.9')""")
-            cur.execute("""INSERT INTO devices VALUES ('10', 'device J', '172.0.0.10')""")
+            cur.execute(
+                """INSERT INTO devices VALUES ('10', 'device J', '172.0.0.10')"""
+            )
             conn.commit()
             conn.close()
 
@@ -115,9 +157,14 @@ class App(MDApp):
                 "variable_a": False,
                 "variable_b": False,
                 "variable_c": False,
-                "variable_d" : "Sample Text"
+                "variable_d": "Sample Text",
             }
-            with SqliteDict(ENV["DB_FILE_NAME"], tablename=ENV["DB_TABLE_CONFIG_NAME"],encode=json.dumps, decode=json.loads) as db:
+            with SqliteDict(
+                ENV["DB_FILE_NAME"],
+                tablename=ENV["DB_TABLE_CONFIG_NAME"],
+                encode=json.dumps,
+                decode=json.loads,
+            ) as db:
                 db["default_config"] = default_config
                 db.commit()
             self.cfg = default_config
@@ -126,8 +173,9 @@ class App(MDApp):
     def jsonKeys2int(x):
         # json.loads(jsonDict, object_hook=jsonKeys2int)
         if isinstance(x, dict):
-                return {int(k):v for k,v in x.items()}
+            return {int(k): v for k, v in x.items()}
         return x
+
 
 if __name__ == "__main__":
     App().run()

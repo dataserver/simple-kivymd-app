@@ -9,10 +9,16 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.label import MDLabel
-from kivymd.uix.list import (IconLeftWidget, ImageLeftWidget, MDList,
-                             OneLineIconListItem, OneLineListItem,
-                             TwoLineAvatarListItem, TwoLineIconListItem,
-                             TwoLineListItem)
+from kivymd.uix.list import (
+    IconLeftWidget,
+    ImageLeftWidget,
+    MDList,
+    OneLineIconListItem,
+    OneLineListItem,
+    TwoLineAvatarListItem,
+    TwoLineIconListItem,
+    TwoLineListItem,
+)
 from kivymd.uix.textfield import MDTextField
 from sqlitedict import SqliteDict
 
@@ -22,11 +28,14 @@ from configs_env import ENV
 class ContentNavigationDrawer(BoxLayout):
     pass
 
+
 class DrawerList(ThemableBehavior, MDList):
     pass
 
+
 class MyDevicesListItem(TwoLineListItem):
-    """ need object prop for extra data """
+    """need object prop for extra data"""
+
     device_id = ObjectProperty()
 
 
@@ -45,9 +54,9 @@ class DevicesScreen(Screen):
         list_view = MDList()
 
         header = OneLineListItem(
-                            text="Devices",
-                            secondary_text="List of devices",
-                        )
+            text="Devices",
+            secondary_text="List of devices",
+        )
         list_view.add_widget(header)
 
         cur.execute("""SELECT * FROM devices""")
@@ -58,11 +67,15 @@ class DevicesScreen(Screen):
             for row in results:
                 device_id = {row["id"]}
                 item = MyDevicesListItem(
-                                    device_id= row["id"],
-                                    text=row["name"],
-                                    secondary_text=row["ip"],
-                                    on_release=(lambda x, value_for_pass=device_id: self.do_edit_device(value_for_pass)),
-                                )
+                    device_id=row["id"],
+                    text=row["name"],
+                    secondary_text=row["ip"],
+                    on_release=(
+                        lambda x, value_for_pass=device_id: self.do_edit_device(
+                            value_for_pass
+                        )
+                    ),
+                )
                 list_view.add_widget(item)
         else:
             pass
@@ -75,9 +88,6 @@ class DevicesScreen(Screen):
     def show_menu(self, device_id):
         print("device id", device_id)
 
-
-
-
     def do_edit_device(self, device_id):
         self.parent.current = "form"
         self.parent.get_screen("form").load_device_info(device_id)
@@ -87,14 +97,14 @@ class DevicesScreen(Screen):
         cur = conn.cursor()
 
         screen_content = self.root.ids.screen_manager.get_screen("scr_devices")
-        cur.execute("""
+        cur.execute(
+            """
             DELETE FROM devices WHERE id=:id
-            """, {
-                "id": self.db_id.text
-            })
+            """,
+            {"id": self.db_id.text},
+        )
         conn.commit()
         conn.close()
-
 
     def no_action(self):
         print("no action defined")

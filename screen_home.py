@@ -1,4 +1,3 @@
-
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
@@ -7,16 +6,23 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.label import MDLabel
-from kivymd.uix.list import (IconLeftWidget, ImageLeftWidget, MDList,
-                             OneLineIconListItem, TwoLineAvatarListItem)
+from kivymd.uix.list import (
+    IconLeftWidget,
+    ImageLeftWidget,
+    MDList,
+    OneLineIconListItem,
+    TwoLineAvatarListItem,
+)
 from kivymd.uix.textfield import MDTextField
 
 
 class ContentNavigationDrawer(BoxLayout):
     pass
 
+
 class DrawerList(ThemableBehavior, MDList):
     pass
+
 
 class HomeScreen(Screen):
     def __init__(self, **kwargs):
@@ -35,7 +41,12 @@ class HomeScreen(Screen):
 
         scroll = ScrollView()
         list_view = MDList()
-        my_label = MDLabel(text="Hello World!", pos_hint={"center_x": 0.5, "center_y": 0.5}, size_hint_x=None, width=200)
+        my_label = MDLabel(
+            text="Hello World!",
+            pos_hint={"center_x": 0.5, "center_y": 0.5},
+            size_hint_x=None,
+            width=200,
+        )
         scroll.add_widget(list_view)
         self.ids.box_layout.add_widget(my_label)
         self.ids.box_layout.add_widget(scroll)
